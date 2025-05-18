@@ -11,6 +11,10 @@ IsWindow(hwnd) {
     return hwnd && DllCall("IsWindow", "Ptr", hwnd)
 }
 
+GetWindowDesktop(hwnd) {
+    return DllCall("VirtualDesktopAccessor.dll\GetWindowDesktopNumber", "Ptr", hwnd, "Int")
+}
+
 SwitchToDesktop(index) {
     global FocusCache, CurrentDesktop
 
@@ -24,16 +28,30 @@ SwitchToDesktop(index) {
 
     if FocusCache.Has(index) {
         targetHwnd := FocusCache[index]
-        if IsWindow(targetHwnd)
+
+        ; Verify it's still on the right desktop
+        if IsWindow(targetHwnd) && GetWindowDesktop(targetHwnd) == index
             DllCall("SetForegroundWindow", "Ptr", targetHwnd)
+        else
+            FocusCache.Delete(index) ; clean up invalid entry
     }
 }
 
 MoveActiveWindowToDesktop(index) {
+    global FocusCache
+
     EnsureDesktopExists(index)
     hwnd := DllCall("GetForegroundWindow", "Ptr")
-    if hwnd
-        DllCall("VirtualDesktopAccessor.dll\MoveWindowToDesktopNumber", "Ptr", hwnd, "Int", index)
+    if !hwnd
+        return
+
+    ; Invalidate any cached entry pointing to this hwnd
+    for k, v in FocusCache {
+        if v = hwnd
+            FocusCache.Delete(k)
+    }
+
+    DllCall("VirtualDesktopAccessor.dll\MoveWindowToDesktopNumber", "Ptr", hwnd, "Int", index)
 }
 
 CloseActiveWindow() {
