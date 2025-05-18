@@ -1,0 +1,6 @@
+# Ignore compiled scripts or system temp files
+*.dll
+*.exe
+*.bak
+*.tmp
+*.log
