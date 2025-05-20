@@ -100,6 +100,10 @@ CycleForward() {
         if !DllCall("IsWindowVisible", "Ptr", next)
             continue
 
+        ; Skip if not on current virtual desktop
+        if !DllCall("VirtualDesktopAccessor\IsWindowOnCurrentVirtualDesktop", "Ptr", next)
+            continue
+
         cloaked := 0
         DllCall("dwmapi\DwmGetWindowAttribute", "Ptr", next, "UInt", 14, "Int*", &cloaked, "UInt", 4)
         if cloaked
@@ -112,7 +116,11 @@ CycleForward() {
         if DllCall("GetWindow", "Ptr", next, "UInt", 4)
             continue
 
+        if DllCall("IsIconic", "Ptr", next)
+            DllCall("ShowWindow", "Ptr", next, "Int", 9)
+
         DllCall("SetForegroundWindow", "Ptr", next)
         break
     }
 }
+

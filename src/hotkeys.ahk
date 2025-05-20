@@ -26,5 +26,5 @@
 #m::MaximizeWindow()
 #f::RestoreWindow()
 #+Enter::LaunchTerminal()
-;#j::CycleForward()
+#j::CycleForward()
 #p::Send "{LWin}"
