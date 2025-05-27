@@ -1,4 +1,4 @@
-$dest = "lib/VirtualDesktopAccessor.dll"
+$dest = "../lib/VirtualDesktopAccessor.dll"
 if (-Not (Test-Path $dest)) {
     Write-Host "Downloading VirtualDesktopAccessor.dll..."
     Invoke-WebRequest `
