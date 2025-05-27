@@ -27,4 +27,5 @@
 #f::RestoreWindow()
 #+Enter::LaunchTerminal()
 #j::CycleForward()
+;#k::CycleBackward()
 #p::Send "{LWin}"
