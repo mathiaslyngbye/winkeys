@@ -1,7 +1,7 @@
 # install.ps1
 param (
-    [string]$ScriptPath = "$PSScriptRoot\main.ahk",
-    [string]$ShortcutName = "MyAHKSetup.lnk"
+    [string]$ScriptPath = "$PSScriptRoot\..\src\main.ahk",
+    [string]$ShortcutName = "winkeys.lnk"
 )
 
 # Resolve paths
