@@ -77,8 +77,9 @@ RestoreWindow() {
 }
 
 LaunchTerminal() {
-    Run "wt.exe"
+    Run "wt.exe", , "Max"
 }
+
 
 CycleForward() {
     hwnd := DllCall("GetForegroundWindow", "Ptr")
